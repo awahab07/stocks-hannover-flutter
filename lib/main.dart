@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool _shouldForwardPin = true;
   int _numSentPins = 0;
-  DateTime _lastForwarded = DateTime(0);
+  DateTime _lastForwarded = DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
   void initState() {
@@ -207,6 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _shouldForwardPin = (prefs.getBool('shf_shouldForwardPin') ?? true);
       _numSentPins = (prefs.getInt('shf_numSentPins') ?? 0);
+      _lastForwarded = DateTime.fromMillisecondsSinceEpoch(prefs.getInt('shf_lastForwarded') ?? 0);
     });
   }
 
@@ -226,6 +227,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
         prefs.setBool('shf_shouldForwardPin', forwardPin);
         prefs.setInt('shf_numSentPins', sentPin);
+        prefs.setInt('shf_lastForwarded', _lastForwarded.millisecondsSinceEpoch);
       });
     } else if (lastForwarded != null) {
       setState(() {
